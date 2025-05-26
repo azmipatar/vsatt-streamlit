@@ -20,19 +20,22 @@ def vibration_response(mass, damping, spring, force, x0, v0, t_end):
         B = x0 - A
         x = A * np.exp(s1 * t) + B * np.exp(s2 * t)
         mode = "Overdamped"
+        eqn = f"x(t) = {A:.3f}*e^({s1:.3f}t) + {B:.3f}*e^({s2:.3f}t)"
     elif zeta == 1:
         A = x0
         B = v0 + wn * x0
         x = (A + B * t) * np.exp(-wn * t)
         mode = "Critically Damped"
+        eqn = f"x(t) = ({A:.3f} + {B:.3f}*t)*e^(-{wn:.3f}t)"
     else:
         wd = wn * np.sqrt(1 - zeta ** 2)
         A = x0
         B = (v0 + zeta * wn * x0) / wd
         x = np.exp(-zeta * wn * t) * (A * np.cos(wd * t) + B * np.sin(wd * t))
         mode = "Underdamped"
+        eqn = f"x(t) = e^(-{zeta * wn:.3f}t)*({A:.3f}*cos({wd:.3f}t) + {B:.3f}*sin({wd:.3f}t))"
 
-    return t, x, wn, zeta, mode
+    return t, x, wn, zeta, mode, eqn
 
 st.title("VSATT - Vibration Simulation & Analysis Teaching Tool")
 
@@ -59,12 +62,13 @@ if st.button("Simulate Both Cases"):
     fig, ax = plt.subplots(figsize=(10, 5))
     
     for i, params in enumerate(inputs):
-        t, x, wn, zeta, mode = vibration_response(*params)
+        t, x, wn, zeta, mode, eqn = vibration_response(*params)
         ax.plot(t, x, label=f"Case {i+1} - {mode}")
         st.markdown(f"### Output for Case Study {i + 1}")
         st.markdown(f"**Natural Frequency (wn):** {wn:.3f} rad/s")
         st.markdown(f"**Damping Ratio (zeta):** {zeta:.3f}")
         st.markdown(f"**System Type:** {mode}")
+        st.markdown(f"**System Response:** `{eqn}`")
 
     ax.set_title("Comparison of Vibration Response")
     ax.set_xlabel("Time (s)")
