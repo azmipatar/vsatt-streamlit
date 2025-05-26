@@ -49,21 +49,24 @@ def compute_response(m, c, k, F, x0, v0):
         B = x0 - A
         x = A * np.exp(s1 * t) + B * np.exp(s2 * t)
         label = f"Overdamped (ζ={zeta:.2f})"
+        mode = "Overdamped"
     elif zeta == 1:
         A = x0
         B = v0 + wn * x0
         x = (A + B * t) * np.exp(-wn * t)
         label = f"Critically Damped (ζ={zeta:.2f})"
+        mode = "Critically Damped"
     else:
         wd = wn * np.sqrt(1 - zeta ** 2)
         A = x0
         B = (v0 + zeta * wn * x0) / wd
         x = np.exp(-zeta * wn * t) * (A * np.cos(wd * t) + B * np.sin(wd * t))
         label = f"Underdamped (ζ={zeta:.2f})"
-    return x, label
+        mode = "Underdamped"
+    return x, label, wn, zeta, mode
 
-x1, label1 = compute_response(m1, c1, k1, F1, x01, v01)
-x2, label2 = compute_response(m2, c2, k2, F2, x02, v02)
+x1, label1, wn1, zeta1, mode1 = compute_response(m1, c1, k1, F1, x01, v01)
+x2, label2, wn2, zeta2, mode2 = compute_response(m2, c2, k2, F2, x02, v02)
 
 # Plot both case studies
 st.subheader("Displacement Response Comparison")
@@ -76,6 +79,11 @@ ax.set_title("Comparison of Case Study 1 and 2")
 ax.grid(True)
 ax.legend()
 st.pyplot(fig)
+
+# Show natural frequency and damping ratio
+st.subheader("Summary of Case Studies")
+st.markdown(f"**Case Study 1:** ωₙ = {wn1:.3f} rad/s, ζ = {zeta1:.3f}, Mode = {mode1}")
+st.markdown(f"**Case Study 2:** ωₙ = {wn2:.3f} rad/s, ζ = {zeta2:.3f}, Mode = {mode2}")
 
 st.subheader("Reference")
 st.write("Adapted from standard vibration system theories. Developed for teaching use.")
