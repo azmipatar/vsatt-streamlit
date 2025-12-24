@@ -9,11 +9,11 @@ st.header("Vibration Analysis and Teaching Tool (VSATT)")
 
 st.subheader("System Schematic")
 st.image(
-    "https://ctms.engin.umich.edu/CTMS/Content/Introduction/System/Modeling/figures/mass_spring_damper.png",
+    "https://github.com/azmipatar/vsatt-streamlit/blob/main/mass_spring_damper.png",
     caption="Fig. 1: Mass-Spring-Damper System"
 )
 st.image(
-    "https://ctms.engin.umich.edu/CTMS/Content/Introduction/System/Modeling/figures/mass_spring_damper_FBD.png",
+    "https://github.com/azmipatar/vsatt-streamlit/blob/main/mass_spring_damper_FBD.png",
     caption="Fig. 2: Free Body Diagram of Mass-Spring-Damper System"
 )
 
@@ -82,4 +82,5 @@ st.write("Adapted from standard vibration system theories. Developed for teachin
 
 st.subheader("Assessment Tools")
 st.markdown('[Pre-Test](https://forms.gle/wPvcgnZAC57MkCxN8)', unsafe_allow_html=True)
+
 st.markdown('[Post-Test](https://forms.gle/FdiKqpMLzw9ENscA9)', unsafe_allow_html=True)
